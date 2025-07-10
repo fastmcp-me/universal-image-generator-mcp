@@ -7,8 +7,8 @@ import PIL.Image
 from google import genai
 from google.genai import types
 
-from base_provider import ImageProvider
-from utils import save_image
+from .base_provider import ImageProvider
+from .utils import save_image
 
 # Setup logging
 logging.basicConfig(

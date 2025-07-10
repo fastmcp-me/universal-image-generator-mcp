@@ -10,15 +10,15 @@ from typing import Optional, Any, Union, List, Tuple
 import PIL.Image
 from mcp.server.fastmcp import FastMCP
 
-from prompts import (
+from .prompts import (
     get_image_generation_prompt, 
     get_image_transformation_prompt, 
     get_translate_prompt,
     get_chinese_image_generation_prompt
 )
-from base_provider import ImageProvider
-from providers import get_provider_from_env
-from utils import save_image
+from .base_provider import ImageProvider
+from .providers import get_provider_from_env
+from .utils import save_image
 
 
 # Setup logging

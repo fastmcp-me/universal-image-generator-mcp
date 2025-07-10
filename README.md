@@ -190,19 +190,16 @@ Using the flying pig image created above, we applied a transformation with the f
 
 ### Installation
 
-### Installing via Smithery
+### Installing via PyPi
 
-To install Gemini Image Generator MCP for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@qhdrl12/mcp-server-gemini-image-gen):
+To be updated
 
-```bash
-npx -y @smithery/cli install @qhdrl12/mcp-server-gemini-image-gen --client claude
-```
 
 ### Manual Installation
 1. Clone the repository:
 ```
-git clone https://github.com/your-username/gemini-image-generator.git
-cd gemini-image-generator
+git clone https://github.com/ECNU3D/universal-image-generator-mcp.git
+cd universal-image-generator-mcp
 ```
 
 2. Create a virtual environment and install dependencies:

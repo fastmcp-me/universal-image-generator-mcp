@@ -6,8 +6,8 @@ import PIL.Image
 
 from zhipuai import ZhipuAI
 
-from base_provider import ImageProvider
-from utils import save_image
+from .base_provider import ImageProvider
+from .utils import save_image
 
 # Setup logging
 logging.basicConfig(

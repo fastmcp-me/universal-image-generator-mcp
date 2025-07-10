@@ -2,10 +2,10 @@ import os
 import logging
 import sys
 
-from base_provider import ImageProvider
-from gemini_provider import GeminiProvider
-from zhipuai_provider import ZhipuAIProvider
-from bailian_provider import BailianProvider
+from .base_provider import ImageProvider
+from .gemini_provider import GeminiProvider
+from .zhipuai_provider import ZhipuAIProvider
+from .bailian_provider import BailianProvider
 
 # Setup logging
 logging.basicConfig(
