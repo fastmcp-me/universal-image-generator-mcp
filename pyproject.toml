@@ -1,6 +1,6 @@
 [project]
 name = "universal-image-generator-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "Universal Image Generator MCP"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [project.scripts]
-universal-image-generator-mcp = "universal-image-generator-mcp:main"
+universal-image-generator-mcp = "universal_image_generator_mcp:main"
 
 [build-system]
 requires = ["hatchling"]
@@ -28,7 +28,7 @@ build-backend = "hatchling.build"
 dev-dependencies = ["pyright>=1.1.389", "ruff>=0.7.3"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/universal-image-generator-mcp"]
+packages = ["src/universal_image_generator_mcp"]
 
 [project.urls]
 Homepage = "https://github.com/ECNU3D/universal-image-generator-mcp"

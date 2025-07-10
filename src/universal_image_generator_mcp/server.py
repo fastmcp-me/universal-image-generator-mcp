@@ -30,7 +30,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Initialize MCP server
-mcp = FastMCP("universal-image-generator-mcp")
+mcp = FastMCP("universal_image_generator_mcp")
 
 # Global provider variable - will be initialized when needed
 image_provider: Optional[ImageProvider] = None
