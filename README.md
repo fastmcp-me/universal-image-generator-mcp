@@ -1,5 +1,7 @@
 # Universal Image Generator MCP Server
 
+This project is a fork and rewrite of the original: https://github.com/qhdrl12/mcp-server-gemini-image-generator repo.
+
 Multi-provider AI image generation server for MCP clients. Generate high-quality images using Google Gemini, ZHIPU AI CogView-4, or Alibaba Bailian through any MCP-compatible application.
 
 ## Features
