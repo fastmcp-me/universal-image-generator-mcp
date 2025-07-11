@@ -46,7 +46,7 @@ def get_image_provider() -> ImageProvider:
             logger.info(f"Supports transformation: {image_provider.supports_transformation()}")
         except Exception as e:
             logger.error(f"Failed to initialize image provider: {e}")
-            logger.error("Please set IMAGE_PROVIDER environment variable to 'gemini', 'zhipuai', or 'bailian'")
+            logger.error("Please set IMAGE_PROVIDER environment variable to 'google', 'zhipuai', or 'bailian'")
             raise
     return image_provider
 
@@ -78,8 +78,8 @@ async def translate_prompt_for_provider(text: str, provider: ImageProvider) -> s
             # Use provider's native translation (GLM-4 for ZhipuAI, Qwen for Bailian)
             translated = await provider.translate_text(text, target_language)
             return translated
-        elif provider.get_name() == "gemini":
-            # Use Gemini for translation
+        elif provider.get_name() == "google":
+            # Use Google for translation
             from google import genai
             from google.genai import types
             
@@ -128,12 +128,13 @@ def _is_chinese(text: str) -> bool:
     return total_chars > 0 and chinese_chars / total_chars > 0.3
 
 
-async def prepare_prompt_for_provider(user_prompt: str, provider: ImageProvider) -> str:
+async def prepare_prompt_for_provider(user_prompt: str, provider: ImageProvider, model_type: Optional[str] = None) -> str:
     """Prepare and optimize the prompt for the specific provider.
     
     Args:
         user_prompt: The original user prompt
         provider: The image provider to use
+        model_type: Optional model type (for Google provider)
         
     Returns:
         Optimized prompt for the provider
@@ -141,12 +142,21 @@ async def prepare_prompt_for_provider(user_prompt: str, provider: ImageProvider)
     # Translate the prompt to the provider's preferred language
     translated_prompt = await translate_prompt_for_provider(user_prompt, provider)
     
-    # Apply provider-specific prompt templates
+    # For Google provider, determine effective model type
+    if provider.get_name() == "google":
+        effective_model_type = model_type or os.environ.get("GOOGLE_MODEL", "gemini")
+        
+        # For Imagen, use the direct translated prompt without templates
+        if effective_model_type.lower() == "imagen":
+            logger.info(f"Using direct translated prompt for Imagen: {translated_prompt}")
+            return translated_prompt
+    
+    # Apply provider-specific prompt templates for language models
     if provider.get_name() in ["zhipuai", "bailian"]:
         # Use Chinese-optimized prompt for Chinese-focused providers
         return get_chinese_image_generation_prompt(translated_prompt)
     else:
-        # Use English prompt for Gemini
+        # Use English prompt for Google Gemini
         return get_image_generation_prompt(translated_prompt)
 
 
@@ -187,11 +197,13 @@ async def load_image_from_base64(encoded_image: str) -> Tuple[PIL.Image.Image, s
 # ==================== MCP Tools ====================
 
 @mcp.tool()
-async def generate_image_from_text(prompt: str) -> str:
+async def generate_image_from_text(prompt: str, model_type: Optional[str] = None) -> str:
     """Generate an image based on the given text prompt using the configured image provider.
 
     Args:
         prompt: User's text prompt describing the desired image to generate
+        model_type: Optional model type for Google provider ("gemini" or "imagen"). 
+                   If not specified, uses the default from GOOGLE_MODEL env var.
         
     Returns:
         Path to the generated image file using the configured provider's image generation capabilities
@@ -203,12 +215,18 @@ async def generate_image_from_text(prompt: str) -> str:
         
         logger.info(f"Generating image with {provider.get_name()} provider")
         logger.info(f"User prompt: {prompt}")
+        if model_type:
+            logger.info(f"Model type specified: {model_type}")
         
         # Prepare the optimized prompt for the provider
-        optimized_prompt = await prepare_prompt_for_provider(prompt, provider)
+        optimized_prompt = await prepare_prompt_for_provider(prompt, provider, model_type)
         
-        # Generate the image using the provider
-        _, saved_path, remote_url = await provider.generate_image(optimized_prompt)
+        # Generate the image using the provider with optional model_type
+        kwargs = {}
+        if model_type and provider.get_name() == "google":
+            kwargs['model_type'] = model_type
+        
+        _, saved_path, remote_url = await provider.generate_image(optimized_prompt, **kwargs)
         
         logger.info(f"Image generated and saved to: {saved_path}")
         
@@ -307,15 +325,15 @@ if _should_register_transformation_tools():
             logger.info(f"Function: {function}")
 
             # For providers that don't support URL-based transformation, we need to download and convert
-            if provider.get_name() == "gemini":
-                # Download image and convert to PIL Image for Gemini
+            if provider.get_name() == "google":
+                # Download image and convert to PIL Image for Google
                 import requests
                 response = requests.get(image_url)
                 if response.status_code != 200:
                     raise ValueError(f"Failed to download image from URL: {image_url}")
                 
                 source_image = PIL.Image.open(BytesIO(response.content))
-                logger.info(f"Downloaded and loaded image from URL for Gemini")
+                logger.info(f"Downloaded and loaded image from URL for Google")
                 
                 # Translate the prompt for the provider
                 translated_prompt = await translate_prompt_for_provider(prompt, provider)

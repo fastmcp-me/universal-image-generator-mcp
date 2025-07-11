@@ -7,11 +7,24 @@ requires-python = ">=3.11"
 authors = [{name = "Tony Wang",email = "shanghaishanghai@yeah.net"}]
 keywords = ["http", "mcp", "llm", "automation"]
 license = { text = "MIT" }
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet :: WWW/HTTP",
+]
 dependencies = [
     "build>=1.2.2.post1",
     "fastmcp>=0.4.1",
     "google>=3.0.0",
     "google-genai>=1.7.0",
+    "mcp[cli]>=1.10.1",
     "pillow>=11.1.0",
     "twine>=6.1.0",
     "zhipuai>=2.1.5.20250708",
