@@ -151,9 +151,14 @@ async def prepare_prompt_for_provider(user_prompt: str, provider: ImageProvider,
             logger.info(f"Using direct translated prompt for Imagen: {translated_prompt}")
             return translated_prompt
     
+    # For Bailian provider, use direct translated prompt without templates
+    if provider.get_name() == "bailian":
+        logger.info(f"Using direct translated prompt for Bailian: {translated_prompt}")
+        return translated_prompt
+    
     # Apply provider-specific prompt templates for language models
-    if provider.get_name() in ["zhipuai", "bailian"]:
-        # Use Chinese-optimized prompt for Chinese-focused providers
+    if provider.get_name() == "zhipuai":
+        # Use Chinese-optimized prompt for ZhipuAI
         return get_chinese_image_generation_prompt(translated_prompt)
     else:
         # Use English prompt for Google Gemini
@@ -306,7 +311,7 @@ if _should_register_transformation_tools():
         """Transform an existing image from a URL using the configured image provider.
 
         Args:
-            image_url: Public URL of the image to be transformed
+            image_url: Remote or Public URL of the image to be transformed
             prompt: Text prompt describing the desired transformation or modifications
             function: WanX editing function (default: 'description_edit'). Supported functions:
                      'description_edit', 'description_edit_with_mask', 'stylization_all', 
