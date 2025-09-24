@@ -1,3 +1,10 @@
+[![Add to Cursor](https://fastmcp.me/badges/cursor_dark.svg)](https://fastmcp.me/MCP/Details/1174/universal-image-generator)
+[![Add to VS Code](https://fastmcp.me/badges/vscode_dark.svg)](https://fastmcp.me/MCP/Details/1174/universal-image-generator)
+[![Add to Claude](https://fastmcp.me/badges/claude_dark.svg)](https://fastmcp.me/MCP/Details/1174/universal-image-generator)
+[![Add to ChatGPT](https://fastmcp.me/badges/chatgpt_dark.svg)](https://fastmcp.me/MCP/Details/1174/universal-image-generator)
+[![Add to Codex](https://fastmcp.me/badges/codex_dark.svg)](https://fastmcp.me/MCP/Details/1174/universal-image-generator)
+[![Add to Gemini](https://fastmcp.me/badges/gemini_dark.svg)](https://fastmcp.me/MCP/Details/1174/universal-image-generator)
+
 # Universal Image Generator MCP Server
 [![PyPI version](https://img.shields.io/pypi/v/universal-image-generator-mcp)](https://pypi.org/project/universal-image-generator-mcp/)
 ![License](https://img.shields.io/pypi/l/universal-image-generator-mcp)
